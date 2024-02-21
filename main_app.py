@@ -3,7 +3,10 @@ import numpy as np
 import pickle
 from streamlit_option_menu import option_menu
 import re
-
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
 
 st.set_page_config(page_title= "Singapore Resale Flat Price Prediction App",
                    layout= "wide",
@@ -13,32 +16,108 @@ st.title("Singapore Resale Flat Prices Predicting")
 
 st.markdown("""
             <style>
-            .stapp{}
-                background-image: url("");
-                background-size: cover};
+            .stApp {
+            background-image: url("https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700014427.jpg");
+            background-size: cover;
+            }
+
+            [data-testid="stSidebar"] {
+            background-image: url('https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700459179.jpg');
+            background-size: cover;
+            }
+
             </style>""", unsafe_allow_html= True)
 
 with st.sidebar:
     selected = option_menu(None, ["Home" , "Analysis", "Predict Resale Price"],
-                            icons = ["house-door-fill","🚀", "💲"],
+                            icons = ["house-door-fill"],
                             default_index = 0 ,
                             orientation = "v",
                             styles={"nav-link": {"font-size": "30px", "text-align": "centre", "margin": "0px", 
-                                                "--hover-color": "#33A5FF"},
+                                                "--hover-color": "rgb(120, 140, 168)"},
                                    "icon": {"font-size": "30px"},
                                    "container" : {"max-width": "6000px"},
-                                   "nav-link-selected": {"background-color": "#33A5FF"}})
+                                   "nav-link-selected": {"background-color":" rgb(172, 168, 140)"}})
+    
+
+df = pd.read_csv("D:\datascience\Singapore_resale_price_project\data.csv")
+
+def storey_range():
+    average_prices= df.groupby('storey_range')['resale_price'].mean().reset_index()
+    average_prices_sorted = average_prices.sort_values(by='resale_price', ascending=False)
+    top_10 = average_prices_sorted.head(10)
+
+    fig = px.bar(top_10, x='storey_range', y='resale_price', title='Top 10 Storey Range listed by the Average Resale Price', labels={'storey_range': 'Storey Range', 'resale_price': 'Resale Price'}, color='storey_range')
+    fig.update_traces()
+    st.plotly_chart(fig, use_container_width= True)
+
+def town():
+    average_prices = df.groupby('town')['resale_price'].mean().reset_index()
+    average_prices_sorted = average_prices.sort_values(by='resale_price', ascending=False)
+    top_10 = average_prices_sorted.head(10)
+
+    fig = px.bar(top_10, x='town', y='resale_price', title='Top 10 Towns listed by the average resale price', labels={'town': 'Town', 'resale_price': 'Resale Price'}, color = "town")
+    fig.update_xaxes(tickangle=45)
+    st.plotly_chart(fig, use_container_width= True)
+
+def flat_model():
+    average_prices = df.groupby('flat_model')['resale_price'].mean().reset_index()
+    average_prices_sorted = average_prices.sort_values(by='resale_price', ascending=False)
+    top_10 = average_prices_sorted.head(10)
+
+    fig = px.bar(top_10, x='flat_model', y='resale_price', title='Top 10 Flat Model listed by the Average Resale Price', labels={'flat_model': 'Flat Model', 'resale_price': 'Resale Price'}, color = 'flat_model')
+    fig.update_xaxes(tickangle=45)
+    st.plotly_chart(fig, use_container_width= True)
+
+def flat_type():
+    average_prices_per_type = df.groupby('flat_type')['resale_price'].mean().reset_index()
+    average_prices_per_type_sorted = average_prices_per_type.sort_values(by='resale_price', ascending=False)
+
+    fig = px.bar(average_prices_per_type_sorted, x='flat_type', y='resale_price', title='Average Price Range per Flat Type', labels={'flat_type': 'Flat Type', 'resale_price': 'Resale Price'}, color= 'flat_type')
+    fig.update_xaxes(tickangle=45)
+    st.plotly_chart(fig, use_container_width= True)
+
+def pie():
+
+    average_prices_per_type = df.groupby('flat_type')['resale_price'].mean().reset_index()
+    hover_data_text = ['Flat Type: {}\nAverage Price: ${:,.2f}'.format(flat_type, avg_price) 
+                   for flat_type, avg_price in zip(average_prices_per_type['flat_type'], 
+                                                    average_prices_per_type['resale_price'])]
+    
+    fig = px.pie(average_prices_per_type, values='resale_price', names='flat_type', title='Average Price per Flat Type', 
+             hover_data={'flat_type': False, 'resale_price': True}, labels={'resale_price': 'Average Price'},
+             height=600, width=800)
+    fig.update_traces(textinfo='percent+label', textposition='inside', hole=0.4)
+    st.plotly_chart(fig, use_container_width= True)
+
+def resale_price():
+    plt.figure(figsize=(10, 6))
+    plt.scatter(df['lease_commence_date'], df['resale_price'])
+    plt.title('Resale Price over Lease Commencement Date')
+    plt.xlabel('Lease Commencement Date')
+    plt.ylabel('Resale Price')
+    plt.grid(True)
+
+    st.pyplot(plt.gcf())
+
     
 
 if selected == "Home":
     col1,col2 =st.columns(2, gap = 'medium')
 
-    col1.markdown("### :blue[Title] : Singapore Resale Flat Prices Predicting Using Python Scripting and Streamlit")
-    col1.markdown("### :blue[Overview] : This Streamlit app is used to deploy the regression Machine learning model to predict the resale price of the property by using the given data. The data has been pre processed and used to build the Regression model")
-    col1.markdown("### :blue[Technologies Used] : Python, Streamlit, Pandas, Matplotlib, Plotly Express, Seaborn, Scikit Learn, Pickle and Numpy")
+    col1.markdown("### :orange[Title] : Singapore Resale Flat Prices Predicting Using Python Scripting and Streamlit")
+    col1.markdown("### :orange[Overview] : This Streamlit app is used to predict the resale price of singapore flats. This process is done by deploying the regression Machine learning model to predict the resale price of the property by using the given data. And Analyse of the features of the given data set")
+    col1.markdown("### :orange[Technologies Used] : Python, Streamlit, Pandas, Matplotlib, Plotly Express, Seaborn, Scikit Learn, Pickle and Numpy")
 
 if selected == "Analysis":
     st.write(" ")
+    storey_range()
+    town()
+    st.write(" ")
+    flat_model()
+    pie()
+    flat_type()
+    resale_price()
 
 
 if selected == "Predict Resale Price":
