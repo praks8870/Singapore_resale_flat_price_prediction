@@ -1,0 +1,12 @@
+skikit_learn
+pandas
+matplotlib
+streamlit
+stramlit_option_menu
+seaborn
+plotly
+xgboost
+pickle
+numpy
+statistics
+re
