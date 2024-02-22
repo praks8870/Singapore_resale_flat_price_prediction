@@ -1,4 +1,4 @@
-skikit_learn
+skikit_learn==1.2.2
 pandas
 matplotlib
 streamlit
