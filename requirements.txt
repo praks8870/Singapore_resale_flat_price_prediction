@@ -10,5 +10,4 @@ streamlit-option-menu
 requests
 plotly
 plotly-express
-pickle
 
