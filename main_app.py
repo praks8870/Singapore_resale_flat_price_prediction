@@ -202,10 +202,10 @@ if selected == "Predict Resale Price":
 
         if submit_button and flag == 0:
             
-            with open(r"D:\datascience\Singapore_resale_price_project\regression_model_pkl", 'rb') as f:
+            with open(r"regression_model_pkl", 'rb') as f:
                 model = pickle.load(f)
 
-            with open(r"D:\datascience\Singapore_resale_price_project\scaler.pkl", 'rb') as f:
+            with open(r"scaler.pkl", 'rb') as f:
                 scaler = pickle.load(f)
 
             test_data = np.array([[np.log(float(str(area))), np.log(float(str(lease))), dict_flat_type[type], dict_flat_model[flat_model], dict_town[town], np.log(float(str(story)))]])
