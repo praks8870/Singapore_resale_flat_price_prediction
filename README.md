@@ -57,7 +57,7 @@ Fnal step in model building is checking the model for prediction and the saving 
 
 I have created the streamlit app for deployig the machine learning model. Given the code in the repository as well.
 
-Steps for using the Streamlit App:
+## Steps for using the Streamlit App:
 
 1. First install the requires libraries given in the main file.
 2. The run the code in your IDE terminal or Command prompt with the code line "streamlit run location_of_the_file/main_app.py".
