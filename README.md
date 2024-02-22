@@ -66,7 +66,8 @@ Steps for using the Streamlit App:
 5. The price prediction is done in the Predict Resale price page, You need to enter the details to predict the price.
 
 ## Conclusion
-This app will be really usefull for the preople who are going to buy the flats in Sigapore.
+  This app will be really usefull for the preople who are going to buy the flats in Sigapore.
+  
 **App link** : [https://singaporeresaleflatpriceprediction-iyfnegtqke3keuuyb5bwyx.streamlit.app/]
 
 ## Thank You.
