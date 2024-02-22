@@ -1,8 +1,7 @@
-skikit_learn
+skikit_learn==1.3.2
 pandas
 matplotlib
 streamlit
-stramlit_option_menu
 seaborn
 plotly
 xgboost
