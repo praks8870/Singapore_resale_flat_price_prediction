@@ -40,7 +40,7 @@ with st.sidebar:
                                    "nav-link-selected": {"background-color":" rgb(172, 168, 140)"}})
     
 
-df = pd.read_csv("D:\datascience\Singapore_resale_price_project\data.csv")
+df = pd.read_csv(r"data.csv")
 
 def storey_range():
     average_prices= df.groupby('storey_range')['resale_price'].mean().reset_index()
